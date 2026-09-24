@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101820">
+  <title>Caixa Rebatível | Realidade Aumentada</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #101820;
+      color: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100svh;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(0, 174, 239, .22), transparent 38%),
+        linear-gradient(180deg, #15222d 0%, #0b1117 100%);
+    }
+
+    main {
+      width: min(100%, 920px);
+      min-height: 100svh;
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
+      gap: 14px;
+    }
+
+    header { text-align: center; }
+
+    h1 {
+      margin: 0 0 7px;
+      font-size: clamp(1.35rem, 5vw, 2rem);
+      line-height: 1.1;
+    }
+
+    p {
+      margin: 0;
+      color: #d7e0e7;
+      line-height: 1.4;
+    }
+
+    model-viewer {
+      width: 100%;
+      min-height: 58svh;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      overflow: hidden;
+      background: radial-gradient(circle, #eef5f8 0%, #bdcbd3 100%);
+      --poster-color: transparent;
+    }
+
+    .ar-button {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      min-height: 48px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 999px;
+      background: #f6a800;
+      color: #111;
+      font-size: 1rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0,0,0,.28);
+      cursor: pointer;
+    }
+
+    .ar-button:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .details {
+      display: grid;
+      gap: 7px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.07);
+      font-size: .92rem;
+    }
+
+    .status { color: #fff; }
+    .hint { color: #b8c5ce; font-size: .82rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Caixa Rebatível</h1>
+      <p>Rode o modelo com o dedo ou coloque-o no espaço à escala aproximada de 1:1.</p>
+    </header>
+
+    <model-viewer
+      id="box-viewer"
+      src="Poster_Caixa_Rebativel.glb"
+      alt="Modelo 3D da caixa rebatível Domplex"
+      scale="0.1 0.1 0.1"
+      camera-controls
+      auto-rotate
+      autoplay
+      shadow-intensity="1"
+      shadow-softness=".8"
+      exposure="1"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      ar-placement="floor"
+      ar-scale="fixed"
+      xr-environment
+      touch-action="pan-y">
+      <button class="ar-button" slot="ar-button">Ver em tamanho real</button>
+    </model-viewer>
+
+    <section class="details" aria-live="polite">
+      <div id="dimensions" class="status">A carregar o modelo 3D…</div>
+      <div class="hint">Em AR, mova lentamente o telemóvel para detetar o chão e toque para posicionar a caixa.</div>
+    </section>
+  </main>
+
+  <script>
+    const viewer = document.querySelector('#box-viewer');
+    const dimensions = document.querySelector('#dimensions');
+
+    viewer.addEventListener('load', () => {
+      dimensions.textContent = 'Escala configurada: base aproximada de 600 × 400 mm';
+    });
+
+    viewer.addEventListener('error', () => {
+      dimensions.textContent = 'Não foi possível carregar o modelo 3D.';
+    });
+  </script>
+</body>
+</html>
